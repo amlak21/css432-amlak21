@@ -19,7 +19,7 @@
 
 
 #define SERV_UDP_PORT 51091 //REPLACE WITH YOUR PORT NUMBER
-#define SERV_HOST_ADDR "127.0.0.1" //REPLACE WITH SERVER IP ADDRESS
+#define SERV_HOST_ADDR "10.158.82.40" //REPLACE WITH SERVER IP ADDRESS
 
 
 /* A pointer to the name of this program for error reporting.      */
