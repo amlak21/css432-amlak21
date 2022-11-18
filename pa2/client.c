@@ -20,7 +20,6 @@
 
 
 
-
 int main(int argc, char *argv[])
 {
      if(argc != 7)
@@ -31,7 +30,9 @@ int main(int argc, char *argv[])
     char* prog_name = argv[0];
     char* serverPort = argv[1]; // server's port number
     char* serverName = argv[2]; // server's IP address or host name
-    int iterations = atoi(argv[3]); //the number of iterations for "single write", "writev" or "multiple writes".
+    int iterations = atoi(argv[3]); //the number of iterations for "single write",
+                                    // "writev" or "multiple writes".
+
     int nbufs = atoi(argv[4]); // the number of data buffers
     int bufsize = atoi(argv[5]); // the size of each data buffer (in bytes)
     int type = atoi(argv[6]); // the type of transfer scenario: 1, 2, or 3
@@ -51,7 +52,6 @@ int main(int argc, char *argv[])
 
     //Connect socket to the server
     connect( clientSd, servInfo->ai_addr, servInfo->ai_addrlen);
-    printf("connected to a server...\n");
 
 
     //Open a new socket and establish a connection to a server.
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 
     //Print out the statistics as shown below:
         //Test 1: data-transmission time = xxx usec, round-trip time = yyy usec, #reads = zzz
-
+    printf("iterations = %d, nbufs = %d, bufsize = %d\n",iterations, nbufs, bufsize);
     printf("Test %d: data-transmission time = %d usec, round-trip time = %d usec, #reads = %d times\n ", type,
     data_transmission_time, round_trip_time, reads);
 
