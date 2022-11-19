@@ -1,4 +1,4 @@
-#How to compile/build
+# How to compile/build
 
 Step 1: open two different csslab machines in a terminal. One for server and the other for client.
 
@@ -8,7 +8,7 @@ Step 2: run make in either one of them. It will compile and create excutable fil
 
     e.g. user@csslab4 pa2%make
 
-#How to run a test
+# How to run a test
 
 First run server on one csslab machine, then client on differnt csslab machine.
 
@@ -22,6 +22,6 @@ For client: ./client port_number servername iterations nbufs bufsize type
 
 Note: port_number and iterations must be the same for client and server
 
-#For multithread testing
+# For multithread testing
 
 First run server and then run multiple clients simultaneously.
