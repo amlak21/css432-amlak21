@@ -24,4 +24,4 @@ Note: port_number and iterations must be the same for client and server
 
 #For multithread testing
 
-run multiple clients simultaneously
+First run server and then run multiple clients simultaneously.
