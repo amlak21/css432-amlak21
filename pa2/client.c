@@ -1,8 +1,8 @@
-
+// TCP socket programming 
 // client.c
 //created by:Amlak T 
 
-#define _XOPEN_SOURCE 600 //?? for issues with incoplete struct type....
+#define _XOPEN_SOURCE 600 //for issues with incoplete struct type....
 #include <sys/types.h>	// socket, bind
 #include <sys/socket.h>   // socket, bind, listen, inet_ntoa
 #include <netinet/in.h>   // htonl, htons, inet_ntoa
@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
         printf("Error: Invalid number of arguments\n");
     }
     
-    char* prog_name = argv[0];
     char* serverPort = argv[1]; // server's port number
     char* serverName = argv[2]; // server's IP address or host name
     int iterations = atoi(argv[3]); //the number of iterations for "single write",
@@ -36,8 +35,6 @@ int main(int argc, char *argv[])
     int nbufs = atoi(argv[4]); // the number of data buffers
     int bufsize = atoi(argv[5]); // the size of each data buffer (in bytes)
     int type = atoi(argv[6]); // the type of transfer scenario: 1, 2, or 3
-
-    //Retrieve an addrinfo structure servInfo corresponding to this IP name by calling getaddrinfo( ).
 
    //Declare an addrinfo structure hints, zero-initialize it
     struct addrinfo hints;
@@ -53,20 +50,15 @@ int main(int argc, char *argv[])
     //Connect socket to the server
     connect( clientSd, servInfo->ai_addr, servInfo->ai_addrlen);
 
-
-    //Open a new socket and establish a connection to a server.
-        // done above
-
     //Allocate databuf[nbufs][bufsize].
     char databuf[nbufs][bufsize]; // where nbufs * bufsize = 1500
 
     struct timeval start, lap, stop;
     long long int data_transmission_time,  round_trip_time; // in micro seconds
-    gettimeofday(&start, NULL); //Start a timer by calling gettimeofday
+    gettimeofday(&start, NULL); //Start a timer 
 
     //Repeat the iteration times of data transfers
     //specified type as 1: multiple writes, 2: writev, or 3: single write
-
     if(type == 1) // multiple writes
     {
         for ( int i = 0; i < iterations; i++)
@@ -88,7 +80,7 @@ int main(int argc, char *argv[])
                 vector[j].iov_base = databuf[j];
                 vector[j].iov_len = bufsize;
             }
-            writev( clientSd, vector, nbufs );       	// sd: socket descriptor
+            writev( clientSd, vector, nbufs );       	
         }
     }
 
@@ -96,7 +88,7 @@ int main(int argc, char *argv[])
     {
         for ( int i = 0; i < iterations; i++)
         {
-            write( clientSd, databuf, nbufs * bufsize ); // sd: socket descriptor
+            write( clientSd, databuf, nbufs * bufsize ); 
         }
     }
     
@@ -106,24 +98,22 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-     gettimeofday(&lap, NULL); //Lap the timer by calling gettimeofday
+     gettimeofday(&lap, NULL); //Lap the timer 
      data_transmission_time = (((lap.tv_sec * 1000000) + lap.tv_usec) - 
      ((start.tv_sec * 1000000) + start.tv_usec)); // where lap - start = data-transmission time
 
-    //Receive from the server an acknowledgement that shows how many times the server called read( ).
-    //may need casting void* ptr when printing out
+    //Receive the number of reads from the server as an acknowledgement 
     int reads;
     void* reads_ptr = &reads;
-    read(clientSd, reads_ptr, sizeof(reads)); //?
+    read(clientSd, reads_ptr, sizeof(reads)); // read number of count from client socket 
     
-    gettimeofday(&stop, NULL); //Stop the timer by calling gettimeofday
+    gettimeofday(&stop, NULL); //Stop the timer
     round_trip_time = (((stop.tv_sec * 1000000) + stop.tv_usec) - 
      ((start.tv_sec * 1000000) + start.tv_usec)); //where stop - start = round-trip time.
 
-    //Print out the statistics as shown below:
-        //Test 1: data-transmission time = xxx usec, round-trip time = yyy usec, #reads = zzz
+    //Print out the statistics
     printf("iterations = %d, nbufs = %d, bufsize = %d\n",iterations, nbufs, bufsize);
-    printf("Test %d: data-transmission time = %d usec, round-trip time = %d usec, #reads = %d times\n ", type,
+    printf("Test %d: data-transmission time = %lli usec, round-trip time = %lli usec, #reads = %d times\n ", type,
     data_transmission_time, round_trip_time, reads);
 
     close(clientSd); //Close the socket.

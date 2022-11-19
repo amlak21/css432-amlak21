@@ -1,7 +1,10 @@
+
+// TCP socket programming 
 // server.c
 // created by: Amlak T
 
-#define _XOPEN_SOURCE 600 // for issues with incoplete struct type....
+
+#define _XOPEN_SOURCE 600 // for issues with incoplete struct type
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,10 +21,7 @@
 #include <pthread.h>    // for threads
 
 
-
-
 const int BUFSIZE = 1500;
-
 
 //structure for server_connection_handler parameters
 // to be passed as an argument to pthread_create function
@@ -32,7 +32,7 @@ struct iteration_sd
 };
 
 
-// helper function for sever
+// helper function for server
 void server_connection_handler( int iterations,int sd)
 {
     char databuf[BUFSIZE]; //Allocate databuf[BUFSIZE]
@@ -49,28 +49,26 @@ void server_connection_handler( int iterations,int sd)
  	    ++count );
     }
 
-    gettimeofday(&stop, NULL);   //Stop the timer by calling gettimeofday
+    gettimeofday(&stop, NULL);   //Stop the timer 
     data_receiving_time = (((stop.tv_sec * 1000000) + stop.tv_usec) - 
      ((start.tv_sec * 1000000) + start.tv_usec)); //where stop - start = data-receiving time
   
-    //Send the number of read( ) calls made, (i.e., count in the above) as an acknowledgement.
+    //Send the number of read calls(i.e count) made to client as an acknowledgement.
    void* count_ptr = &count;
-    write(sd, count_ptr, sizeof(count)); // write count to sd 
-    printf("data-receiving time = %d usec, read count = %d\n",data_receiving_time, count);
+    write(sd, count_ptr, sizeof(count)); // write count to server socket
+    printf("data-receiving time = %lli usec, read count = %d\n",data_receiving_time, count);
 
-    //Close this connection.
-    close(sd); // close newSd
-    //Optionally, terminate the server process by calling exit( 0 ).  (This might make it easier for debugging at first. You would not want to do this on a multi-threaded server).
-    //pthread_exit(NULL)
+    close(sd); // close this connection
 }
 
-// function in thread that calls server helper function in it
-void* thread_function(void* func_parameters)
+// function in thread that calls server_connection_handler function in it
+void* thread_function(void* func_parameters) 
 {
     struct iteration_sd * arguments = (struct iteration_sd *)func_parameters;
     int number_of_iterations = arguments->num_iterations; //get iterations from struct
     int s_fd = arguments->socket_fd; // get socket from struct
-    server_connection_handler(number_of_iterations, s_fd);  // call the function and excute it
+    server_connection_handler(number_of_iterations, s_fd);  // call server helper function and excute it
+
     pthread_exit(NULL); // close thread
     return NULL;
 }
@@ -86,9 +84,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-
-    // prog_name, port number, number of iterations(must be same wiht client)
-    char* prog_name = argv[0];
+    // prog_name, port number, number of iterations(must be same with client)
     char* port_number = argv[1];
     int iterations = atoi(argv[2]);
 
@@ -111,7 +107,7 @@ int main(int argc, char *argv[])
     bind( serverSd, res->ai_addr, res->ai_addrlen );
 
     //listen to up to n connection requests
-    int n = 10;
+    int n = 50;
     listen( serverSd,  n );
     printf("listening for incoming request...\n");
 
@@ -121,7 +117,7 @@ int main(int argc, char *argv[])
     
     while(1) //Loop back to the accept command and wait for a new connection
     {
-        //Receive a request from a client and create a new socket for this connestion
+        //Receive a request from a client and create a new socket for this connection
         struct sockaddr_storage newSockAddr;
         socklen_t newSockAddrSize = sizeof( newSockAddr );
         int newSd = accept( serverSd, (struct sockaddr *)&newSockAddr, &newSockAddrSize );
@@ -137,18 +133,6 @@ int main(int argc, char *argv[])
             exit(1);
         }
         tid++;
-            //pthread_t id
-            //pthread_create(id, NULL, &your_function, your_function arrgument)
-        //Execute your_function in the new thread
-        //Close the new thread
-            //pthread_exit(id)
-
-        //Execute your_function - read from client and write back to client
-        //server_connection_handler(iterations, newSd);
-        //tid++;
     }
-    
-    //Loop back to the accept command and wait for a new connection
-
     return 0;
 }
