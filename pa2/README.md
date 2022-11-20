@@ -21,6 +21,8 @@ For client: ./client port_number servername iterations nbufs bufsize type
     e.g. user@csslab4 pa2%./client 51091 csslab10.uwb.edu 20000 15 100 1
 
 Note: port_number and iterations must be the same for client and server
+    
+    For client: for servername supply IP address or csslab machine name as shown above.
 
 # For multithread testing
 
