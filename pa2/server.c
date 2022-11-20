@@ -1,10 +1,13 @@
 
-// TCP socket programming 
 // server.c
 // created by: Amlak T
+//TCP socket programming 
+//Purpose:
+// creates a client/server and evaluates the number of reads and writes
+// made by client/server. 
 
 
-#define _XOPEN_SOURCE 600 // for issues with incoplete struct type
+#define _XOPEN_SOURCE 600 // for issues with incomplete struct type
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

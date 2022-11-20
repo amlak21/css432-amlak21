@@ -1,8 +1,12 @@
-// TCP socket programming 
 // client.c
 //created by:Amlak T 
+//TCP socket programming 
+//Purpose:
+// creates a client/server and evaluates the number of reads and writes
+// made by client/server. 
 
-#define _XOPEN_SOURCE 600 //for issues with incoplete struct type....
+
+#define _XOPEN_SOURCE 600 //for issues with incomplete struct type
 #include <sys/types.h>	// socket, bind
 #include <sys/socket.h>   // socket, bind, listen, inet_ntoa
 #include <netinet/in.h>   // htonl, htons, inet_ntoa
@@ -118,9 +122,6 @@ int main(int argc, char *argv[])
 
     close(clientSd); //Close the socket.
    
-
-
-
     return 0;
 }
 
